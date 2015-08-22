@@ -28,6 +28,11 @@ gameState.update = function() {
     this.moveHead(-1, 0);
   }
 
+  if (game.input.keyboard.downDuration(Phaser.Keyboard.ESC, d)) {
+    this.startLevel();
+    this.renderer.reset(this.model);
+  }
+
   // Render
   this.renderer.render();
 };

@@ -3,8 +3,11 @@
 var Renderer = function(game, model) {
   this.game = game;
   this.model = model;
-  console.log(model);
   this.graphics = game.add.graphics();
+};
+
+Renderer.prototype.reset = function(model) {
+  this.model = model;
 };
 
 Renderer.prototype.render = function() {
@@ -19,7 +22,13 @@ Renderer.prototype.render = function() {
     }
   }
 
+  var worm = this.model.worm;
   this.graphics.beginFill(Phaser.Color.getColor(255, 0, 0));
-  this.graphics.drawCircle(this.model.hi * 40 + 20, this.model.hj * 40 + 20, 38);
+  this.graphics.drawCircle(worm.hi * 40 + 20, worm.hj * 40 + 20, 38);
   this.graphics.endFill();
+  for (var i = 0; i < worm.parts.length; ++i) {
+    this.graphics.beginFill(Phaser.Color.getColor(255, 255, 255));
+    this.graphics.drawCircle(worm.parts[i].i * 40 + 20, worm.parts[i].j * 40 + 20, 38);
+    this.graphics.endFill();
+  }
 };
