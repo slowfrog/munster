@@ -16,9 +16,25 @@ gameState.startLevel = function() {
 };
 
 gameState.update = function() {
+  // Check input
+  var d = 15;
+  if (this.arrows.down.downDuration(d)) {
+    this.moveHead(0, 1);
+  } else if (this.arrows.right.downDuration(d)) {
+    this.moveHead(1, 0);
+  } else if (this.arrows.up.downDuration(d)) {
+    this.moveHead(0, -1);
+  } else if (this.arrows.left.downDuration(d)) {
+    this.moveHead(-1, 0);
+  }
+
+  // Render
   this.renderer.render();
 };
 
+gameState.moveHead = function(di, dj) {
+  this.model.moveHead(di, dj);
+};
 
 // Define states
 game.state.add("game", gameState);
