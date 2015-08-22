@@ -10,6 +10,8 @@ Renderer.prototype.reset = function(model) {
   this.model = model;
 };
 
+var SCALE = 20;
+
 Renderer.prototype.render = function() {
   this.graphics.clear();
   var cheese = this.model.cheese;
@@ -17,18 +19,28 @@ Renderer.prototype.render = function() {
     var row = cheese[j];
     for (var i = 0; i < row.length; ++i) {
       this.graphics.beginFill(Phaser.Color.getColor(255 * row[i], 255 * row[i], 0));
-      this.graphics.drawRect(i * 40, j * 40, 39, 39);
+      this.graphics.drawRect(i * SCALE, j * SCALE, SCALE - 1, SCALE - 1);
       this.graphics.endFill();
     }
   }
 
-  var worm = this.model.worm;
-  this.graphics.beginFill(Phaser.Color.getColor(255, 0, 0));
-  this.graphics.drawCircle(worm.hi * 40 + 20, worm.hj * 40 + 20, 38);
+  this.renderWorm(this.model.worm,
+                  Phaser.Color.getColor(255, 0, 0),
+                  Phaser.Color.getColor(255, 255, 255));
+  for (var i = 0; i < this.model.wormlet.length; ++i) {
+    this.renderWorm(this.model.wormlet[i],
+                    Phaser.Color.getColor(255, 200, 200),
+                    Phaser.Color.getColor(255, 255, 255));
+  }
+};
+
+Renderer.prototype.renderWorm = function(worm, col_head, col_parts) {
+  this.graphics.beginFill(col_head);
+  this.graphics.drawCircle(worm.hi * SCALE + SCALE / 2, worm.hj * SCALE + SCALE / 2, SCALE - 2);
   this.graphics.endFill();
   for (var i = 0; i < worm.parts.length; ++i) {
-    this.graphics.beginFill(Phaser.Color.getColor(255, 255, 255));
-    this.graphics.drawCircle(worm.parts[i].i * 40 + 20, worm.parts[i].j * 40 + 20, 38);
+    this.graphics.beginFill(col_parts);
+    this.graphics.drawCircle(worm.parts[i].i * SCALE + SCALE / 2, worm.parts[i].j * SCALE + SCALE / 2, SCALE - 2);
     this.graphics.endFill();
   }
 };

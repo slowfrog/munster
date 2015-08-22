@@ -24,6 +24,11 @@ Worm.prototype.occupies = function(hi, hj) {
   return false;
 };
 
+Worm.prototype.isSplittable = function() {
+  var size = 1 + this.parts.length;
+  return size >= 6;
+};
+
 var Model = function(w, h, hi, hj) {
   this.width = w;
   this.height = h;
@@ -36,6 +41,7 @@ var Model = function(w, h, hi, hj) {
     this.cheese.push(row);
   }
   this.worm = new Worm(hi, hj);
+  this.wormlet = [];
   this.food = 0;
   this.cheese[this.worm.hj][this.worm.hi] = 0;
 };
@@ -59,4 +65,18 @@ Model.prototype.moveHead = function(di, dj) {
   }
   this.worm.moveHead(new_hi, new_hj, grow);
   this.cheese[this.worm.hj][this.worm.hi] = 0;
+};
+
+Model.prototype.splitWorm = function() {
+  console.log("SPLIT?");
+  if (this.worm.isSplittable()) {
+    console.log("SPLIT!");
+    var wormlet = new Worm(
+      this.worm.parts[0].i, this.worm.parts[0].j);
+    for (var i = 1; i <= 2; ++i) {
+      wormlet.parts.push(this.worm.parts[i]);
+    }
+    this.wormlet.push(wormlet);
+    this.worm.parts.splice(0, 3);
+  }
 };

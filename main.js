@@ -12,7 +12,7 @@ gameState.create = function() {
 };
 
 gameState.startLevel = function() {
-  this.model = new Model(10, 10, 4, 5);
+  this.model = new Model(25, 20, 4, 5);
 };
 
 gameState.update = function() {
@@ -26,6 +26,10 @@ gameState.update = function() {
     this.moveHead(0, -1);
   } else if (this.arrows.left.downDuration(d)) {
     this.moveHead(-1, 0);
+  }
+
+  if (game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, d)) {
+    this.model.splitWorm();
   }
 
   if (game.input.keyboard.downDuration(Phaser.Keyboard.ESC, d)) {
@@ -44,5 +48,3 @@ gameState.moveHead = function(di, dj) {
 // Define states
 game.state.add("game", gameState);
 game.state.start("game");
-
-
