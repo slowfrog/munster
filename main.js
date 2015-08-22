@@ -12,7 +12,7 @@ gameState.create = function() {
 };
 
 gameState.startLevel = function() {
-  this.model = new Model(25, 20, 4, 5);
+  this.model = new Model(40, 30, 4, 5);
 };
 
 gameState.update = function() {
