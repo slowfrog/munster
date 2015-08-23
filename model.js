@@ -1,7 +1,10 @@
 "use strict";
 
+var INITIAL_LIFE = 5;
+
 var Worm = function(hi, hj) {
   this.food = 0;
+  this.life = INITIAL_LIFE;
   this.hi = hi;
   this.hj = hj;
   this.parts = [];
@@ -26,9 +29,15 @@ Worm.prototype.occupies = function(hi, hj) {
   return false;
 };
 
+var DEAD_CAN_SPLIT = true;
+
 Worm.prototype.isSplittable = function() {
-  var size = 1 + this.parts.length;
-  return size >= 6;
+  if (this.life > 0 || DEAD_CAN_SPLIT) {
+    var size = 1 + this.parts.length;
+    return size >= 6;
+  } else {
+    return false;
+  }
 };
 
 var WIDTH = 40;
@@ -45,6 +54,7 @@ var Model = function(level) {
 Model.prototype.loadLevel = function(l) {
   this.cheese = [];
   this.left = 0;
+  this.turn = 0;
   var idx = 0;
   for (var j = 0; j < this.height; ++j) {
     var row = [];
@@ -77,13 +87,25 @@ Model.prototype.loadLevel = function(l) {
 };
 
 Model.prototype.moveHead = function(di, dj) {
+  var canMove = this.canMoveWormHead(this.worm, di, dj);
+  for (var i = 0; i < this.wormlet.length; ++i) {
+    canMove = canMove || this.canMoveWormHead(this.wormlet[i], di, dj);
+  }
+  if (!canMove) {
+    return; // No move: no turn!
+  }
+
   this.moveWormHead(this.worm, di, dj);
   for (var i = 0; i < this.wormlet.length; ++i) {
     this.moveWormHead(this.wormlet[i], di, dj);
   }
+  this.turn += 1;
 };
 
-Model.prototype.moveWormHead = function(worm, di, dj) {
+Model.prototype.canMoveWormHead = function(worm, di, dj) {
+  if (worm.life == 0) {
+    return false;
+  }
   if (worm.confused) {
     di = -di;
     dj = -dj;
@@ -92,27 +114,42 @@ Model.prototype.moveWormHead = function(worm, di, dj) {
   var new_hj = worm.hj + dj;
   if (new_hi < 0 || new_hi >= this.width ||
       new_hj < 0 || new_hj >= this.height) {
-    return;
+    return false;
   }
   if (this.cheese[new_hj][new_hi] == 3) {
-    return;
+    return false;
   }
   if (this.worm.hi == new_hi && this.worm.hj == new_hj) {
-    return;
+    return false;
   }
   if (this.worm.occupies(new_hi, new_hj)) {
-    return;
+    return false;
   }
   for (var i = 0; i < this.wormlet.length; ++i) {
     var wormlet = this.wormlet[i];
     if (wormlet.hi == new_hi && wormlet.hj == new_hj) {
-      return;
+      return false;
     }
     if (wormlet.occupies(new_hi, new_hj)) {
-      return;
+      return false;
     }
   }
+  return true;
+};
+
+Model.prototype.moveWormHead = function(worm, di, dj) {
+  if (!this.canMoveWormHead(worm, di, dj)) {
+    worm.life = Math.max(worm.life - 1, 0);
+    return;
+  }
+
   // Move OK
+  if (worm.confused) {
+    di = -di;
+    dj = -dj;
+  }
+  var new_hi = worm.hi + di;
+  var new_hj = worm.hj + dj;
   var grow = false;
   if (this.cheese[new_hj][new_hi]) {
     this.left -= 1;
@@ -123,6 +160,9 @@ Model.prototype.moveWormHead = function(worm, di, dj) {
     if (this.cheese[new_hj][new_hi] == 2) {
       worm.confused = !worm.confused;
     }
+    worm.life = INITIAL_LIFE;
+  } else {
+    worm.life -= 1;
   }
   worm.moveHead(new_hi, new_hj, grow);
   this.cheese[worm.hj][worm.hi] = 0;
