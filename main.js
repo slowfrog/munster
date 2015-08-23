@@ -134,7 +134,9 @@ gameState.moveHead = function(di, dj) {
 	this.nextLevel();
 	this.renderer.reset(this.model);
     } else {
-      this.nomnom.play('', 0, 0.1, false, false);
+      if (!this.nomnom.isPlaying) {
+        this.nomnom.play('', 0, 0.1, false, true);
+      }
 
 	this.model.moveHead(di, dj);}
 };
