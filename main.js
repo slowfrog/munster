@@ -71,7 +71,21 @@ gameState.update = function() {
 };
 
 gameState.moveHead = function(di, dj) {
+    var medal = 0;
     if (this.model.percent <= 25) {
+	if (this.model.turn <= this.level.gold) {
+	    medal = 3;
+	    // GOLD
+	} else if (this.model.turn <= this.model.silver) {
+	    medal = 2;
+	    // SILVER
+	} else if (this.model.turn <= this.model.bronze) {
+	    medal = 1;
+	    // BRONZE
+	}
+	// TODO transition
+	//
+	this.renderer.displayWin(medal);
 	this.nextLevel();
 	this.renderer.reset(this.model);
     } else {
