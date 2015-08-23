@@ -48,7 +48,9 @@ Renderer.prototype.render = function() {
                     head_color);
   }
 
-  this.labelScore.text = Math.floor(100 * this.model.left / this.model.total) + "% cheese";
+    this.labelScore.text = this.model.percent
+    // Math.floor(100 * this.model.left / this.model.total)
+	+ "% cheese";
   this.labelTurn.text = "Turn: " + this.model.turn;
 };
 
