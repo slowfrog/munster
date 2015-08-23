@@ -41,6 +41,35 @@ Worm.prototype.isSplittable = function() {
   }
 };
 
+// One recorded action, either a move or a split
+var Action = function(type) {
+  this.type = type;
+};
+
+Action.MOVE = 1;
+Action.SPLIT = 2;
+
+Action.move = function(di, dj) {
+  var action = new Action(Action.MOVE);
+  action.di = di;
+  action.dj = dj;
+  return action;
+};
+
+Action.split = function() {
+  return new Action(Action.SPLIT);
+};
+
+// The action recorder
+var Recorder = function() {
+  this.actions = [];
+};
+
+Recorder.prototype.record = function(action) {
+  this.actions.push(action);
+};
+
+// The top-level model
 var WIDTH = 40;
 var HEIGHT = 30;
 var Model = function(level) {
@@ -50,6 +79,7 @@ var Model = function(level) {
   this.worm = new Worm(this.hi, this.hj);
   this.wormlet = [];
   this.cheese[this.worm.hj][this.worm.hi] = 0;
+  this.recorder = new Recorder();
 };
 
 Model.prototype.loadLevel = function(l) {
@@ -102,6 +132,7 @@ Model.prototype.moveHead = function(di, dj) {
     this.moveWormHead(this.wormlet[i], di, dj);
   }
   this.turn += 1;
+  this.recorder.record(Action.move(di, dj));
 };
 
 Model.prototype.canMoveWormHead = function(worm, di, dj) {
@@ -180,5 +211,6 @@ Model.prototype.splitWorm = function() {
     }
     this.wormlet.push(wormlet);
     this.worm.parts.splice(0, 3);
+    this.recorder.record(Action.split());
   }
 };
