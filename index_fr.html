@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>You are the Munster - LD-33</title>
+    <script src="phaser.min.js"></script>
+    <script src="model.js"></script>
+    <script src="render.js"></script>
+    <script src="levels.js"></script>
+    <script src="main.js"></script>
+    <style>
+* {
+  font-family: Arial, sansserif;
+}
+a {
+  color: black;
+}
+.all {
+  max-width: 650px;
+}
+.key {
+  text-transform: uppercase;
+  font-size: 80%;
+  font-weight: 800;
+  color: #00c;
+}
+    </style>
+  </head>
+  <body>
+    <div class="all">
+      <div id="gameDiv"></div>
+      <h1>Vous êtes le Monstre dans le <a href="https://fr.wikipedia.org/wiki/Munster_(fromage)" target="_blank">Munster<a></h1>
+      <p>Vous jouez un ver mangeur de fromage. Vous devez manger du fromage jusqu'à ce qu'il n'en reste plus que 25%.</p>
+      <p>Utilisez <span class="key">les flèches</span> pour déplacer votre tête, et votre corps suivra comme dans le jeu 'snake'. Chaque fois que vous mangez trois morceaux de fromage, vous vous allongez d'un élément.</p>
+      <p>Si vous faites au moins 6, vous pouvez découper votre corps avec la <span class="key">barre espace</span>. Un nouveau ver de taille 3 va se détacher de votre queue.</p>
+      <p>Un morceau de fromage marron est inmangeable.
+      Un ver qui mange un morceau de fromage bleu devient confus et se déplace de façon inverse.
+      Un ver qui ne mange pas pendant trop longtemps devient marron, meurt et bloque le passage.</p>
+      <p>Essayez de manger 75% de fromage en aussi peu de tours que possible pour gagner des médailles et passer au niveau suivant.</p>
+      <p>Si vous êtes coincé, vous pouvez recommencer le niveau avec <span class="key">escape/échap</span>.</p>
+      <p>Vous pouvez aussi revoir vos actions en acceléré jusqu'à la position courante avec <span class="key">r</span>.</p>
+    </div>
+  </body>
+</html>

@@ -12,9 +12,33 @@
 * {
   font-family: Arial, sansserif;
 }
+a {
+  color: black;
+}
+.all {
+  max-width: 650px;
+}
+.key {
+  text-transform: uppercase;
+  font-size: 80%;
+  font-weight: 800;
+  color: #00c;
+}
     </style>
   </head>
   <body>
-    <div id="gameDiv"></div>
+    <div class="all">
+      <div id="gameDiv"></div>
+      <h1>You are the Monster in the <a href="https://en.wikipedia.org/wiki/Munster_cheese" target="_blank">Munster<a></h1>
+      <p>You play a cheese-eating worm. You must eat cheese until no more than 25% remains.</p>
+      <p><span class="key">Arrow keys</span> make your head move, and you body follows as in the game 'snake'. Each time you eat 3 pieces of cheese, you grow by one.</p>
+      <p>If you're at least 6 long, you can also split your body by pressing <span class="key">spacebar</span>. A new little worm of size 3 will detach from your end.</p>
+      <p>A brown piece of cheese is uneatable.
+      A worm that eats a blue piece of cheese becomes confused and moves in the opposite direction.
+      A worm that does not eat cheese for too long becomes brown, dies and blocks the way.</p>
+      <p>Try to eat 75% of the cheese in as few turns as possible to earn medals, and move to the next level.</p>
+      <p>If you're stuck, you can restart the current level with <span class="key">escape</span>.</p>
+      <p>You can also see the replay action up to your current state with <span class="key">r</span>.</p>
+    </div>
   </body>
 </html>
