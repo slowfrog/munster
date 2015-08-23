@@ -141,7 +141,7 @@ gameState.split = function() {
 gameState.moveHead = function(di, dj) {
     var medal = 0;
     if (this.model.percent <= 25) {
-	if (this.model.turn <= this.level.gold) {
+	if (this.model.turn <= this.model.gold) {
 	    medal = 3;
 	    // GOLD
 	} else if (this.model.turn <= this.model.silver) {
