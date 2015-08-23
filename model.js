@@ -1,6 +1,7 @@
 "use strict";
 
 var INITIAL_LIFE = 5;
+var INITIAL_GOAL = 25;
 
 var Worm = function(hi, hj) {
   this.food = 0;
@@ -53,7 +54,8 @@ var Model = function(level) {
 
 Model.prototype.loadLevel = function(l) {
   this.cheese = [];
-  this.left = 0;
+    this.left = 0;
+    this.percent = 100;
   this.turn = 0;
   var idx = 0;
   for (var j = 0; j < this.height; ++j) {
@@ -78,7 +80,7 @@ Model.prototype.loadLevel = function(l) {
       }
       row.push(val);
       if (val == 1 || val == 2) {
-        this.left += 1;
+          this.left += 1;
       }
     }
     this.cheese.push(row);
@@ -152,7 +154,8 @@ Model.prototype.moveWormHead = function(worm, di, dj) {
   var new_hj = worm.hj + dj;
   var grow = false;
   if (this.cheese[new_hj][new_hi]) {
-    this.left -= 1;
+      this.left -= 1;
+      this.percent = Math.floor(100 * this.left / this.total);
     if (++worm.food == 3) {
       grow = true;
       worm.food = 0;
