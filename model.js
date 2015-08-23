@@ -31,20 +31,49 @@ Worm.prototype.isSplittable = function() {
   return size >= 6;
 };
 
-var Model = function(w, h, hi, hj) {
-  this.width = w;
-  this.height = h;
+var WIDTH = 40;
+var HEIGHT = 30;
+var Model = function(level) {
+  this.width = WIDTH;
+  this.height = HEIGHT;
+  this.loadLevel(LEVELS[level]);
+  this.worm = new Worm(this.hi, this.hj);
+  this.wormlet = [];
+  this.cheese[this.worm.hj][this.worm.hi] = 0;
+};
+
+Model.prototype.loadLevel = function(l) {
   this.cheese = [];
-  for (var j = 0; j < h; ++j) {
+  this.left = 0;
+  var idx = 0;
+  for (var j = 0; j < this.height; ++j) {
     var row = [];
-    for (var i = 0; i < w; ++i) {
-      row.push(1 + (Math.random() < 0.05 ? 1 : 0));
+    for (var i = 0; i < this.width; ++i, idx += 2) {
+      var c = l.charAt(idx);
+      var val = 0;
+      switch (c) {
+        case '#':
+          val = 1;
+          break;
+        case '.':
+          val = 2;
+          break;
+        case 'X':
+          val = 3;
+          break;
+        case '@':
+          this.hi = i;
+          this.hj = j;
+          break;
+      }
+      row.push(val);
+      if (val == 1 || val == 2) {
+        this.left += 1;
+      }
     }
     this.cheese.push(row);
   }
-  this.worm = new Worm(hi, hj);
-  this.wormlet = [];
-  this.cheese[this.worm.hj][this.worm.hi] = 0;
+  this.total = this.left;
 };
 
 Model.prototype.moveHead = function(di, dj) {
@@ -65,6 +94,9 @@ Model.prototype.moveWormHead = function(worm, di, dj) {
       new_hj < 0 || new_hj >= this.height) {
     return;
   }
+  if (this.cheese[new_hj][new_hi] == 3) {
+    return;
+  }
   if (this.worm.hi == new_hi && this.worm.hj == new_hj) {
     return;
   }
@@ -83,6 +115,7 @@ Model.prototype.moveWormHead = function(worm, di, dj) {
   // Move OK
   var grow = false;
   if (this.cheese[new_hj][new_hi]) {
+    this.left -= 1;
     if (++worm.food == 3) {
       grow = true;
       worm.food = 0;

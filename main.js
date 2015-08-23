@@ -6,13 +6,22 @@ var game = new Phaser.Game(640, 480, Phaser.AUTO, "gameDiv");
 var gameState = {};
 
 gameState.create = function() {
+  this.level = 0;
   this.arrows = game.input.keyboard.createCursorKeys();
-  this.startLevel();
+  this.startLevel(this.level);
   this.renderer = new Renderer(game, this.model);
 };
 
-gameState.startLevel = function() {
-  this.model = new Model(40, 30, 4, 5);
+gameState.startLevel = function(lvl) {
+  this.model = new Model(lvl);
+};
+
+gameState.nextLevel = function() {
+  this.level += 1;
+  if (this.level == LEVELS.length) {
+    this.level = 0;
+  }
+  this.startLevel(this.level);
 };
 
 gameState.update = function() {
@@ -31,9 +40,13 @@ gameState.update = function() {
   if (game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, d)) {
     this.model.splitWorm();
   }
+  if (game.input.keyboard.downDuration(Phaser.Keyboard.N, d)) {
+    this.nextLevel();
+    this.renderer.reset(this.model);
+  }
 
   if (game.input.keyboard.downDuration(Phaser.Keyboard.ESC, d)) {
-    this.startLevel();
+    this.startLevel(this.level);
     this.renderer.reset(this.model);
   }
 

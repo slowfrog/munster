@@ -4,6 +4,8 @@ var Renderer = function(game, model) {
   this.game = game;
   this.model = model;
   this.graphics = game.add.graphics();
+  this.labelScore = game.add.text(20, 450, "0",
+                                  { font: "30px Arial", fill: "#ffffff" });
 };
 
 Renderer.prototype.reset = function(model) {
@@ -15,7 +17,8 @@ var SCALE = 15;
 var COLOR = [
   Phaser.Color.getColor(0, 0, 0),
   Phaser.Color.getColor(255, 255, 0),
-  Phaser.Color.getColor(0, 0, 255)
+  Phaser.Color.getColor(0, 0, 255),
+  Phaser.Color.getColor(200,160,0)
 ];
 
 Renderer.prototype.render = function() {
@@ -44,6 +47,8 @@ Renderer.prototype.render = function() {
                     head_color,
                     Phaser.Color.getColor(255, 255, 255));
   }
+
+  this.labelScore.text = Math.floor(100 * this.model.left / this.model.total) + "% cheese";
 };
 
 Renderer.prototype.renderWorm = function(worm, col_head, col_parts) {
