@@ -13,6 +13,8 @@ gameState.preload = function() {
 };
 
 gameState.create = function() {
+  this.winbool = false;
+  this.wintime = 0;
   this.level = 0;
   this.startLevel(this.level);
   this.lastFire = {};
@@ -23,7 +25,8 @@ gameState.create = function() {
 };
 
 gameState.startLevel = function(lvl) {
-  this.model = new Model(lvl);
+    this.winbool = false;
+    this.model = new Model(lvl);
 };
 
 gameState.nextLevel = function() {
@@ -50,7 +53,13 @@ gameState.shouldFire = function(key, now, opt_delay) {
 var REPLAY_DELAY = 100;
 
 gameState.update = function() {
-  var now = gameState.time.time;
+    var now = gameState.time.time;
+    if (this.winbool) {
+	if (this.wintime + 4000 <= now) {
+	    this.nextLevel();
+	    this.renderer.reset(this.model);
+	}
+    }    
   if (this.inputEnabled) {
     // Check input
     if (gameState.shouldFire(Phaser.Keyboard.DOWN, now)) {
@@ -144,9 +153,9 @@ gameState.moveHead = function(di, dj) {
 	}
 	// TODO transition
 	//
+	gameState.winbool=true;
+	gameState.wintime=gameState.time.time;
 	this.renderer.displayWin(medal);
-	this.nextLevel();
-	this.renderer.reset(this.model);
     } else {
       this.nomnom.play('', 0, 0.1, false, false);
 

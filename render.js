@@ -11,7 +11,10 @@ var Renderer = function(game, model) {
 };
 
 Renderer.prototype.reset = function(model) {
-  this.model = model;
+    this.model = model;
+    if (this.message) {this.message.destroy();
+		       this.message=null;
+		      }
 };
 
 var SCALE = 15;
@@ -81,13 +84,15 @@ Renderer.prototype.renderWorm = function(worm, col_head) {
 Renderer.prototype.displayWin = function (medal) {
     var medaltext = "Congratulations\n";
     if (1 == medal) {
-	medaltext = "Bronze Medal!\n ";
+	medaltext = "Bronze Medal!\n";
     } else if (2 == medal) {
-	medaltext = "Silver Medal!\n ";
+	medaltext = "Silver Medal!\n";
     } else if (3 == medal) {
-	medaltext = "GooOoold Medal!\n ";
+	medaltext = "GooOoold Medal!\n";
     }
-    game.add.text(SCALE * this.model.width / 3,
-		  SCALE * this.model.height / 3,
-		  medaltext + "You may fly to the next level...", { font: "40px Arial", fill: "#ffffff" });
+    this.message =
+	game.add.text(SCALE * this.model.width / 8,
+		      SCALE * this.model.height / 3,
+		      medaltext + "You may fly to the next level...",
+		      { font: "40px Arial", fill: "#ff0000" });
 }
