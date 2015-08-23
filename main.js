@@ -55,7 +55,11 @@ gameState.update = function() {
 };
 
 gameState.moveHead = function(di, dj) {
-  this.model.moveHead(di, dj);
+    if (this.model.percent <= 25) {
+	this.nextLevel();
+	this.renderer.reset(this.model);
+    } else {
+	this.model.moveHead(di, dj);}
 };
 
 // Define states
