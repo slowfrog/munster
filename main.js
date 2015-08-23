@@ -5,7 +5,7 @@ var game = new Phaser.Game(640, 480, Phaser.AUTO, "gameDiv");
 // MAIN STATE
 var gameState = {};
 
-var FIRE_DELAY = 200;
+var FIRE_DELAY = 150;
 
 gameState.preload = function() {
   game.load.audio("nomnom", ["nomnom.wav"], true);
@@ -53,13 +53,14 @@ gameState.shouldFire = function(key, now, opt_delay) {
 var REPLAY_DELAY = 100;
 
 gameState.update = function() {
-    var now = gameState.time.time;
-    if (this.winbool) {
+  var now = gameState.time.time;
+  if (this.winbool) {
 	if (this.wintime + 4000 <= now) {
-	    this.nextLevel();
-	    this.renderer.reset(this.model);
+	  this.nextLevel();
+	  this.renderer.reset(this.model);
 	}
-    }    
+    return;
+  }    
   if (this.inputEnabled) {
     // Check input
     if (gameState.shouldFire(Phaser.Keyboard.DOWN, now)) {
@@ -71,7 +72,7 @@ gameState.update = function() {
     } else if (gameState.shouldFire(Phaser.Keyboard.LEFT, now)) {
       this.moveHead(-1, 0);
     }
-
+    
     if (gameState.shouldFire(Phaser.Keyboard.SPACEBAR, now, 500)) {
       this.split();
     }
