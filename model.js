@@ -82,11 +82,15 @@ var Model = function(level) {
   this.recorder = new Recorder();
 };
 
-Model.prototype.loadLevel = function(l) {
+Model.prototype.loadLevel = function(lvl) {
   this.cheese = [];
-    this.left = 0;
-    this.percent = 100;
+  this.left = 0;
+  this.percent = 100;
   this.turn = 0;
+    this.gold = lvl.gold;
+    this.silver = lvl.silver;
+    this.bronze = lvl.bronze;
+    var l = lvl.cheese;  
   var idx = 0;
   for (var j = 0; j < this.height; ++j) {
     var row = [];
