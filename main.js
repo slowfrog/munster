@@ -134,11 +134,12 @@ gameState.moveHead = function(di, dj) {
 	this.nextLevel();
 	this.renderer.reset(this.model);
     } else {
-      if (!this.nomnom.isPlaying) {
-        this.nomnom.play('', 0, 0.1, false, true);
+	  if (this.model.moveHead(di, dj)) {
+        if (!this.nomnom.isPlaying) {
+          this.nomnom.play('', 0, 0.1, false, true);
+        }
       }
-
-	this.model.moveHead(di, dj);}
+    }
 };
 
 // Define states

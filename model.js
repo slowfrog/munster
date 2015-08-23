@@ -124,7 +124,7 @@ Model.prototype.moveHead = function(di, dj) {
     canMove = canMove || this.canMoveWormHead(this.wormlet[i], di, dj);
   }
   if (!canMove) {
-    return; // No move: no turn!
+    return false; // No move: no turn!
   }
 
   this.moveWormHead(this.worm, di, dj);
@@ -133,6 +133,7 @@ Model.prototype.moveHead = function(di, dj) {
   }
   this.turn += 1;
   this.recorder.record(Action.move(di, dj));
+  return true;
 };
 
 Model.prototype.canMoveWormHead = function(worm, di, dj) {
