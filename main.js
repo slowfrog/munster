@@ -7,12 +7,19 @@ var gameState = {};
 
 var FIRE_DELAY = 200;
 
+gameState.preload = function() {
+  game.load.audio("nomnom", ["nomnom.wav"], true);
+  game.load.audio("snip", ["snip.wav"], true);
+};
+
 gameState.create = function() {
   this.level = 0;
   this.startLevel(this.level);
   this.lastFire = {};
   this.renderer = new Renderer(game, this.model);
   this.inputEnabled = true;
+  this.nomnom = game.add.audio("nomnom", 0.7, true, true);
+  this.snip = game.add.audio("snip", 0.7, true, true);
 };
 
 gameState.startLevel = function(lvl) {
@@ -57,7 +64,7 @@ gameState.update = function() {
     }
 
     if (gameState.shouldFire(Phaser.Keyboard.SPACEBAR, now, 500)) {
-      this.model.splitWorm();
+      this.split();
     }
 
     if (gameState.shouldFire(Phaser.Keyboard.R, now, 10000)) {
@@ -88,7 +95,7 @@ gameState.update = function() {
       this.moveHead(action.di, action.dj);
       break;
     case Action.SPLIT:
-      this.model.splitWorm();
+      this.split();
       break;
     }
     
@@ -116,11 +123,19 @@ gameState.stopReplay = function() {
   this.inputEnabled = true;
 };
 
+gameState.split = function() {
+  if (this.model.splitWorm()) {
+    this.snip.play('', 0, 1, false);
+  }
+};
+
 gameState.moveHead = function(di, dj) {
     if (this.model.percent <= 25) {
 	this.nextLevel();
 	this.renderer.reset(this.model);
     } else {
+      this.nomnom.play('', 0, 0.1, false, false);
+
 	this.model.moveHead(di, dj);}
 };
 

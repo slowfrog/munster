@@ -212,5 +212,7 @@ Model.prototype.splitWorm = function() {
     this.wormlet.push(wormlet);
     this.worm.parts.splice(0, 3);
     this.recorder.record(Action.split());
+    return true;
   }
+  return false;
 };
