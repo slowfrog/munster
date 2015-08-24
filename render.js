@@ -23,7 +23,7 @@ var COLOR = [
   Phaser.Color.getColor(0, 0, 0),
   Phaser.Color.getColor(255, 255, 0),
   Phaser.Color.getColor(0, 0, 255),
-  Phaser.Color.getColor(200, 160, 0)
+  Phaser.Color.getColor(150, 120, 0)
 ];
 
 Renderer.prototype.render = function() {
@@ -58,10 +58,10 @@ Renderer.prototype.render = function() {
 };
 
 Renderer.prototype.renderWorm = function(worm, col_head) {
-  var col_parts = worm.life == 0 ? Phaser.Color.getColor(200, 160, 0)
-    : worm.life == 1 ? Phaser.Color.getColor(215, 190, 80)
-    : worm.life == 2 ? Phaser.Color.getColor(230, 210, 150)
-    : worm.life == 3 ? Phaser.Color.getColor(250, 230, 200)
+  var col_parts = worm.life == 0 ? Phaser.Color.getColor(150, 120, 0)
+    : worm.life == 1 ? Phaser.Color.getColor(180, 160, 80)
+    : worm.life == 2 ? Phaser.Color.getColor(210, 190, 150)
+    : worm.life == 3 ? Phaser.Color.getColor(250, 220, 200)
     : Phaser.Color.getColor(255, 255, 255);
   this.graphics.beginFill(col_head);
   this.graphics.drawCircle(worm.hi * SCALE + SCALE / 2, worm.hj * SCALE + SCALE / 2, SCALE - 2);

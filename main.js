@@ -169,3 +169,12 @@ gameState.moveHead = function(di, dj) {
 // Define states
 game.state.add("game", gameState);
 game.state.start("game");
+
+// Prevent document scrolling
+document.addEventListener("keydown", function(ev) {
+  console.log(ev);
+  if ((ev.keyCode >= 37 && ev.keyCode <= 40) ||
+      (ev.keyCode == 32)) {
+    ev.preventDefault();
+  }
+}, false);

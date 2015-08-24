@@ -2,6 +2,42 @@ var LEVELS = [
     
   // Level 0
     { cheese:
+  "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # XXXXXXXXXX# # # # # # # # # # # XX                          " +
+  "XX@ # # # # # # # # # # # . # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # XXXXXXXXXX# # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XX# # # # # # # # # # # XX# # # # # # # # # # # # # XX                          " +
+  "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                          " +
+  "                                                                                " +
+  "                                                                                " +
+  "    X X X X X   X X X X X     X X X     X X X X X                               " +
+  "        X       X           X       X       X                                   " +
+  "        X       X X X         X X           X                                   " +
+  "        X       X                 X         X                                   " +
+  "        X       X           X       X       X                                   " +
+  "        X       XXXXXXXXX     X X X         X                                   " +
+  "                                                                                " +
+  "                                                                                " +
+  "                                                                                ",
+      gold: 150,
+      silver: 200,
+      bronze: 300},
+  
+  // Level 0
+    { cheese:
   "@ # # # # # # # # # # # # # # # # # # # # # # # # #                             " +
   "# # # # # # # # # # # # # # # # # # # # # # # # # #                             " +
   "# # # # # # # # # # # # # # # # # # # # # # # # # #                             " +
