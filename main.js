@@ -127,6 +127,7 @@ gameState.showLevelString = function() {
     var cellString = "";
     console.log(this.model.cheese);
     for (var j = 0; j < this.model.height; j = j+1) {
+	levelString = levelString + "\"";
 	for (var i = 0; i < this.model.width; i = i+1) {
 	    switch (this.model.cheese[j][i]) {
 	    case 0:
@@ -140,7 +141,7 @@ gameState.showLevelString = function() {
 	    }
 	    levelString = levelString + cellString + " ";
 	}
-	levelString += "\n";
+	levelString += "\"" + ((this.model.height != j+1) ? " + " : "") + " \n";
     }
     console.log(levelString);
 };
