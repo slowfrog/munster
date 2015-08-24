@@ -1,6 +1,8 @@
 "use strict";
 
-var game = new Phaser.Game(640, 480, Phaser.AUTO, "gameDiv");
+var DISPLAY_WIDTH = 700;
+var BUTTON_SIZE = 40;
+var game = new Phaser.Game(DISPLAY_WIDTH, 480, Phaser.AUTO, "gameDiv");
 
 // MAIN STATE
 var gameState = {};
@@ -10,6 +12,7 @@ var FIRE_DELAY = 150;
 gameState.preload = function() {
   game.load.audio("nomnom", ["nomnom.wav"], true);
   game.load.audio("snip", ["snip.wav"], true);
+  game.load.spritesheet("buttons", "buttons.png", BUTTON_SIZE, BUTTON_SIZE);
 };
 
 gameState.create = function() {
@@ -22,6 +25,22 @@ gameState.create = function() {
   this.inputEnabled = true;
   this.nomnom = game.add.audio("nomnom", 0.7, true, true);
   this.snip = game.add.audio("snip", 0.7, true, true);
+  this.upbutton = game.add.sprite(DISPLAY_WIDTH - 10 - 3 * BUTTON_SIZE / 2, 10, "buttons", 0);
+  this.rightbutton = game.add.sprite(DISPLAY_WIDTH - 10 - BUTTON_SIZE, 10 + BUTTON_SIZE, "buttons", 1);
+  this.downbutton = game.add.sprite(DISPLAY_WIDTH - 10 - 3 * BUTTON_SIZE / 2, 10 + 2 * BUTTON_SIZE, "buttons", 2);
+  this.leftbutton = game.add.sprite(DISPLAY_WIDTH - 10 - 2 * BUTTON_SIZE, 10 + BUTTON_SIZE, "buttons", 3);
+  this.splitbutton = game.add.sprite(DISPLAY_WIDTH - 10 - 3 * BUTTON_SIZE / 2, 10 + 4 * BUTTON_SIZE, "buttons", 5);
+  this.replaybutton = game.add.sprite(DISPLAY_WIDTH - 10 - 3 * BUTTON_SIZE / 2, 10 + 5.5 * BUTTON_SIZE, "buttons", 6);
+  this.escbutton = game.add.sprite(DISPLAY_WIDTH - 10 - 3 * BUTTON_SIZE / 2, 10 + 7 * BUTTON_SIZE, "buttons", 4);
+
+  this.keySprite = {};
+  this.keySprite[Phaser.Keyboard.UP] = this.upbutton;
+  this.keySprite[Phaser.Keyboard.RIGHT] = this.rightbutton;
+  this.keySprite[Phaser.Keyboard.DOWN] = this.downbutton;
+  this.keySprite[Phaser.Keyboard.LEFT] = this.leftbutton;
+  this.keySprite[Phaser.Keyboard.ESC] = this.escbutton;
+  this.keySprite[Phaser.Keyboard.SPACEBAR] = this.splitbutton;
+  this.keySprite[Phaser.Keyboard.R] = this.replaybutton;
 };
 
 gameState.startLevel = function(lvl) {
@@ -37,9 +56,14 @@ gameState.nextLevel = function() {
   this.startLevel(this.level);
 };
 
+var ORIGIN = new Phaser.Point(0, 0);
+
 gameState.shouldFire = function(key, now, opt_delay) {
   var delay = opt_delay || FIRE_DELAY;
-  if (game.input.keyboard.isDown(key)) {
+  if (game.input.keyboard.isDown(key) ||
+      (this.keySprite[key] &&
+       game.input.hitTest(this.keySprite[key], game.input.activePointer, ORIGIN) &&
+       game.input.activePointer.isDown)) {
     if ((!this.lastFire[key]) || (this.lastFire[key] < now - delay)) {
       this.lastFire[key] = now;
       return true;
@@ -63,7 +87,9 @@ gameState.update = function() {
   }    
   if (this.inputEnabled) {
     // Check input
-    if (gameState.shouldFire(Phaser.Keyboard.DOWN, now)) {
+    if (gameState.shouldFire(Phaser.Keyboard.DOWN, now) ||
+        (game.input.activePointer.targetObject == this.downbutton &&
+         game.input.activePointer.isDown())) {
       this.moveHead(0, 1);
     } else if (gameState.shouldFire(Phaser.Keyboard.RIGHT, now)) {
       this.moveHead(1, 0);
