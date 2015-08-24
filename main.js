@@ -76,6 +76,9 @@ gameState.update = function() {
     if (gameState.shouldFire(Phaser.Keyboard.SPACEBAR, now, 500)) {
       this.split();
     }
+    if (gameState.shouldFire(Phaser.Keyboard.S, now, 500)) {
+      this.showLevelString();
+    }
 
     if (gameState.shouldFire(Phaser.Keyboard.R, now, 10000)) {
       this.startReplay();
@@ -117,6 +120,29 @@ gameState.update = function() {
 
   // Render
   this.renderer.render();
+};
+
+gameState.showLevelString = function() {
+    var levelString = "";
+    var cellString = "";
+    console.log(this.model.cheese);
+    for (var j = 0; j < this.model.height; j = j+1) {
+	for (var i = 0; i < this.model.width; i = i+1) {
+	    switch (this.model.cheese[j][i]) {
+	    case 0:
+		cellString = " "; break;
+	    case 1:
+		cellString = "#"; break;
+	    case 2:
+		cellString = "."; break;
+	    case 3:
+		cellString = "X"; break;
+	    }
+	    levelString = levelString + cellString + " ";
+	}
+	levelString += "\n";
+    }
+    console.log(levelString);
 };
 
 gameState.startReplay = function() {
